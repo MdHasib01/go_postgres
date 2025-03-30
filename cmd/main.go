@@ -1,13 +1,17 @@
 package main
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/MdHasib01/go_postgres/database"
+	"github.com/gofiber/fiber/v2"
+)
 
 func main() {
+	database.ConnectDb()
 	app := fiber.New()
 
-	app.Get('/', func(c *fiber.Ctx) error {
-		return c.SendingString("Hello world")
-	})
+	setupRoutes(app)
+
+	
 
 	app.Listen(":8000")
 }

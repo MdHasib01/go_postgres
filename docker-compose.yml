@@ -1,12 +1,12 @@
 services:
   web:
     build: .
+    env_file:
+      - .env
     volumes:
       - .:/usr/src/app
     ports:
       - "8000:8000"
-    env_file:
-      - .env
     depends_on:
       - db
 
@@ -18,10 +18,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DB=chaiDB
-      - POSTGRES_USER=chaiaurcode
-      - POSTGRES_PASSWORD=chaiaurcode
-
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
   adminer:
     image: adminer
     restart: always
@@ -29,3 +28,4 @@ services:
       - 8080:8080
     depends_on:
       - db
+    command: air cmd/main.go -b 0.0.0.0
